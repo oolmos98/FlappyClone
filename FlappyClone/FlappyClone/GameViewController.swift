@@ -69,6 +69,10 @@ class GameViewController: UIViewController {
     func setupScene() {
         scnScene = SCNScene()
         scnView.scene = scnScene
+        
+        scnView.backgroundColor = UIColor.cyan
+        
+
     }
     
     func setupCamera() {
@@ -86,17 +90,22 @@ class GameViewController: UIViewController {
     }
     
     func setupObjects(){
-        var geometry: SCNGeometry
+//        var geometry: SCNGeometry
+//
+//        geometry = SCNSphere(radius: 2.0)
+//        geometry.firstMaterial?.diffuse.contents = UIColor(red: 0.3, green: 0.5, blue: 0.4, alpha: 1 )
+//
+//        let geoNode = SCNNode(geometry: geometry)
+//
+//        //Adds physics properties such as gravity on init. Physics engine is applied to this object for type .dynamic
+//        geoNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
+//
+//        scnScene.rootNode.addChildNode(geoNode)
         
-        geometry = SCNSphere(radius: 2.0)
-        geometry.firstMaterial?.diffuse.contents = UIColor(red: 0.3, green: 0.5, blue: 0.4, alpha: 1 )
-    
-        let geoNode = SCNNode(geometry: geometry)
-        
-        //Adds physics properties such as gravity on init. Physics engine is applied to this object for type .dynamic
-        geoNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
-        
-        scnScene.rootNode.addChildNode(geoNode)
+        //Creating bird node from a class
+        let birdNode = BirdNode()
+        //Adding bird node to child
+        scnScene.rootNode.addChildNode(birdNode)
 
     }
     

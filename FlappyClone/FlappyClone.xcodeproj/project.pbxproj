@@ -13,6 +13,7 @@
 		9000486B24B3CF2F00817581 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9000486A24B3CF2F00817581 /* Assets.xcassets */; };
 		9000486E24B3CF2F00817581 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9000486C24B3CF2F00817581 /* LaunchScreen.storyboard */; };
 		9000487624B3D63600817581 /* Flappy.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 9000487524B3D63600817581 /* Flappy.scnassets */; };
+		9000487B24B3DF7E00817581 /* Bird.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9000487A24B3DF7E00817581 /* Bird.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		9000486D24B3CF2F00817581 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9000486F24B3CF2F00817581 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9000487524B3D63600817581 /* Flappy.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = Flappy.scnassets; sourceTree = "<group>"; };
+		9000487A24B3DF7E00817581 /* Bird.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bird.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 		9000486024B3CF2D00817581 /* FlappyClone */ = {
 			isa = PBXGroup;
 			children = (
+				9000487724B3DF2D00817581 /* Models */,
 				9000486124B3CF2D00817581 /* AppDelegate.swift */,
 				9000486524B3CF2D00817581 /* GameViewController.swift */,
 				9000486724B3CF2D00817581 /* Main.storyboard */,
@@ -65,6 +68,14 @@
 				9000486F24B3CF2F00817581 /* Info.plist */,
 			);
 			path = FlappyClone;
+			sourceTree = "<group>";
+		};
+		9000487724B3DF2D00817581 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				9000487A24B3DF7E00817581 /* Bird.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -140,6 +151,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9000486624B3CF2D00817581 /* GameViewController.swift in Sources */,
+				9000487B24B3DF7E00817581 /* Bird.swift in Sources */,
 				9000486224B3CF2D00817581 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
