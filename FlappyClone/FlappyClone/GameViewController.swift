@@ -24,7 +24,10 @@ class GameViewController: UIViewController {
     var cameraNode: SCNNode!
     
     // 'Bird' object
-    let bird = Bird()
+    var bird: Bird!
+    
+    var pipe: [Pipe]!
+    
     
     
     override func viewDidLoad() {
@@ -59,7 +62,7 @@ class GameViewController: UIViewController {
         sceneView = (self.view as! SCNView)
         
         sceneView.showsStatistics = true
-        sceneView.allowsCameraControl = false
+        sceneView.allowsCameraControl = false //False since we are manipulating the camera via ball movements and touches
         sceneView.autoenablesDefaultLighting = true
     }
     
@@ -70,7 +73,7 @@ class GameViewController: UIViewController {
         sceneView.scene = sceneScene
         
         sceneView.delegate = self
-
+        
         
         let tapRecognizer = UITapGestureRecognizer()
         tapRecognizer.numberOfTouchesRequired = 1
@@ -90,29 +93,42 @@ class GameViewController: UIViewController {
         
         // Assign its position in the scene
         cameraNode.position = SCNVector3(x: 0, y: 2, z: 5)
+        
         // Add camera node to child of scene root node
         sceneScene.rootNode.addChildNode(cameraNode)
     }
     
+    // This function organizes the objects in our MainScene by adding
+    // them to the MainScene root and positioning.
     func setupObjects(){
+        
+        bird = Bird()
+        pipe = [Pipe(x: 0,y: 5,z: -10),
+                Pipe(x: 0,y: 15,z: -10),
+                Pipe(x: 0,y: 5,z: -15),
+                Pipe(x: 0,y: 15,z: -15)]
+        
         sceneScene.rootNode.addChildNode(bird.birdNode!)
         
+        pipe.forEach(){
+            sceneScene.rootNode.addChildNode($0.pipeNode!)
+        }
     }
     
     @objc func sceneViewTapped (recognizer:UITapGestureRecognizer) {
-//        let location = recognizer.location(in: sceneView)
-//        let hitResults = sceneView.hitTest(location, options: nil)
-//
-//        if(hitResults.count > 0){
-//            let result = hitResults.first
-//            if let node = result?.node{
-//                if node.name == "ball"{
-//                    bird.birdNode!.physicsBody?.applyForce(SCNVector3(x: 0, y: 1.5, z: 0), asImpulse: true)
-//                }
-//            }
-//        }
-        bird.birdNode!.physicsBody?.applyForce(SCNVector3(x: 0, y: 1.5, z: -0.5), asImpulse: true)
-
+        //        let location = recognizer.location(in: sceneView)
+        //        let hitResults = sceneView.hitTest(location, options: nil)
+        //
+        //        if(hitResults.count > 0){
+        //            let result = hitResults.first
+        //            if let node = result?.node{
+        //                if node.name == "ball"{
+        //                    bird.birdNode!.physicsBody?.applyForce(SCNVector3(x: 0, y: 1.5, z: 0), asImpulse: true)
+        //                }
+        //            }
+        //        }
+        bird.jump()
+        
     }
     
     
@@ -134,23 +150,34 @@ extension GameViewController : SCNSceneRendererDelegate {
         //Camera follows the ball.
         //Referenced https://github.com/brianadvent/HitTheTree/blob/master/HitTheTree/GameViewController.swift
         
-       let ball = bird.birdNode!.presentation
-       let ballPosition = ball.position
-       
-       let targetPosition = SCNVector3(x: ballPosition.x, y: ballPosition.y + 2, z:ballPosition.z + 15)
-       var cameraPosition = cameraNode.position
-       
-       let camDamping:Float = 0.3
-       
-       let xComponent = (cameraPosition.x * (1 - camDamping)) + (targetPosition.x * camDamping)
-       let yComponent = (cameraPosition.y * (1 - camDamping)) + (targetPosition.y * camDamping)
-       let zComponent = (cameraPosition.z * (1 - camDamping)) + (targetPosition.z * camDamping)
-       
-       cameraPosition = SCNVector3(x: xComponent, y: yComponent, z: zComponent)
-
+        let ball = bird.birdNode!.presentation
+        let ballPosition = ball.position
+        
+        let targetPosition = SCNVector3(x: ballPosition.x, y: ballPosition.y + 4, z:ballPosition.z + 20)
+        var cameraPosition = cameraNode.position
+        
+        let camDamping:Float = 0.3
+        
+        //Linear Interpolation
+        let xComponent = (cameraPosition.x * (1 - camDamping)) + (targetPosition.x * camDamping)
+        let yComponent = (cameraPosition.y * (1 - camDamping)) + (targetPosition.y * camDamping)
+        let zComponent = (cameraPosition.z * (1 - camDamping)) + (targetPosition.z * camDamping)
+        
+        cameraPosition = SCNVector3(x: xComponent, y: yComponent, z: zComponent)
+        
         cameraNode.position = cameraPosition
-       // bird.birdNode!.physicsBody?.applyForce(SCNVector3(x: 0, y: 0.2, z: 0), asImpulse: true)
-        print(cameraNode.position)
+        // bird.birdNode!.physicsBody?.applyForce(SCNVector3(x: 0, y: 0.2, z: 0), asImpulse: true)
+        //print(cameraNode.position)
+        
+        print(ballPosition)
+        if(ballPosition.z < -25.0 ){
+            bird.birdNode?.position = SCNVector3(0,0,0)
+            pipe.forEach(){
+                $0.pipeNode?.position = $0.position
+            }
+            
+            
+        }
         
     }
 }

@@ -18,8 +18,11 @@ class Bird {
     var scene:SCNScene! = SCNScene(named: "art.scnassets/Ball.scn")!
     
     init(){
-        
         birdNode = scene.rootNode.childNode(withName: "ball", recursively: true)!
+    }
+    
+    func jump(){
+        birdNode!.physicsBody?.applyForce(SCNVector3(x: 0, y: 1.5, z: -0.5), asImpulse: true)
     }
     
 }
