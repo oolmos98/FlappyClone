@@ -27,6 +27,7 @@ class GameViewController: UIViewController {
     var bird: Bird!
     
     var pipe: [Pipe]!
+    let maxPipes = 5
     
     
     
@@ -103,10 +104,19 @@ class GameViewController: UIViewController {
     func setupObjects(){
         
         bird = Bird()
-        pipe = [Pipe(x: 0,y: 5,z: -10),
-                Pipe(x: 0,y: 15,z: -10),
-                Pipe(x: 0,y: 5,z: -15),
-                Pipe(x: 0,y: 15,z: -15)]
+        
+        pipe = []
+        for i in 1...maxPipes{
+            let dist = i*(-10)
+            pipe.append(Pipe(x: 0, y: 5, z: CGFloat(dist)))
+            pipe.append(Pipe(x: 0, y: 15, z: CGFloat(dist)))
+
+        }
+        
+//        pipe = [Pipe(x: 0,y: 5,z: -10),
+//                Pipe(x: 0,y: 15,z: -10),
+//                Pipe(x: 0,y: 5,z: -15),
+//                Pipe(x: 0,y: 15,z: -15)]
         
         sceneScene.rootNode.addChildNode(bird.birdNode!)
         
@@ -169,8 +179,9 @@ extension GameViewController : SCNSceneRendererDelegate {
         // bird.birdNode!.physicsBody?.applyForce(SCNVector3(x: 0, y: 0.2, z: 0), asImpulse: true)
         //print(cameraNode.position)
         
-        print(ballPosition)
-        if(ballPosition.z < -25.0 ){
+        //print(ballPosition)
+        let bound = ((-10) * Float(maxPipes)) - 10
+        if(ballPosition.z < bound){
             bird.birdNode?.position = SCNVector3(0,0,0)
             pipe.forEach(){
                 $0.pipeNode?.position = $0.position
