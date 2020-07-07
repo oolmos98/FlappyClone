@@ -17,11 +17,14 @@ import SceneKit
 
 class GameViewController: UIViewController {
     
-    var scnView: SCNView!
+    var sceneView: SCNView!
     
-    var scnScene: SCNScene!
+    var sceneScene: SCNScene!
     
     var cameraNode: SCNNode!
+    
+    // 'Bird' object
+    let bird = Bird()
     
     
     override func viewDidLoad() {
@@ -33,12 +36,12 @@ class GameViewController: UIViewController {
         setupObjects()
     }
     
-    //Handles device rotation
+    // Handles device rotation
     override var shouldAutorotate: Bool {
         return true
     }
     
-    //Hides status bar
+    // Hides status bar
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -53,20 +56,28 @@ class GameViewController: UIViewController {
     
     func setupView(){
         // retrieve the SCNView
-        scnView = (self.view as! SCNView)
+        sceneView = (self.view as! SCNView)
         
-        scnView.showsStatistics = true
-        scnView.allowsCameraControl = true
-        scnView.autoenablesDefaultLighting = true
+        sceneView.showsStatistics = true
+        sceneView.allowsCameraControl = true
+        sceneView.autoenablesDefaultLighting = true
     }
     
     func setupScene() {
         
-        scnScene = SCNScene(named: "art.scnassets/MainScene.scn")
+        sceneScene = SCNScene(named: "art.scnassets/MainScene.scn")
         
-        scnView.scene = scnScene
+        sceneView.scene = sceneScene
         
-        scnView.backgroundColor = UIColor.cyan
+        sceneView.backgroundColor = UIColor.cyan
+        
+        let tapRecognizer = UITapGestureRecognizer()
+        tapRecognizer.numberOfTouchesRequired = 1
+        tapRecognizer.numberOfTapsRequired = 1
+        
+        tapRecognizer.addTarget(self, action: #selector(GameViewController.sceneViewTapped(recognizer:)))
+        sceneView.addGestureRecognizer(tapRecognizer)
+        
     }
     
     func setupCamera() {
@@ -77,30 +88,29 @@ class GameViewController: UIViewController {
         cameraNode.camera = SCNCamera()
         
         // Assign its position in the scene
-        cameraNode.position = SCNVector3(x: 0, y: 2, z: 10)
+        cameraNode.position = SCNVector3(x: 0, y: 2, z: 20)
         
         // Add camera node to child of scene root node
-        scnScene.rootNode.addChildNode(cameraNode)
+        sceneScene.rootNode.addChildNode(cameraNode)
     }
     
     func setupObjects(){
-        //        var geometry: SCNGeometry
-        //
-        //        geometry = SCNSphere(radius: 2.0)
-        //        geometry.firstMaterial?.diffuse.contents = UIColor(red: 0.3, green: 0.5, blue: 0.4, alpha: 1 )
-        //
-        //        let geoNode = SCNNode(geometry: geometry)
-        //
-        //        //Adds physics properties such as gravity on init. Physics engine is applied to this object for type .dynamic
-        //        geoNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
-        //
-        //        scnScene.rootNode.addChildNode(geoNode)
+        sceneScene.rootNode.addChildNode(bird.birdNode!)
         
-        //Creating bird node from a class
-        let birdNode = BirdNode()
-        //Adding bird node to child
-        scnScene.rootNode.addChildNode(birdNode)
+    }
+    
+    @objc func sceneViewTapped (recognizer:UITapGestureRecognizer) {
+        let location = recognizer.location(in: sceneView)
+        let hitResults = sceneView.hitTest(location, options: nil)
         
+        if(hitResults.count > 0){
+            let result = hitResults.first
+            if let node = result?.node{
+                if node.name == "ball"{
+                    bird.birdNode!.physicsBody?.applyForce(SCNVector3(x: 0.2, y: 1, z: 0), asImpulse: true)
+                }
+            }
+        }
     }
     
 }

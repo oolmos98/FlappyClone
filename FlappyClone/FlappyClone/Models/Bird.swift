@@ -10,28 +10,16 @@ import Foundation
 import SceneKit
 
 
-class BirdNode: SCNNode {
 
+class Bird {
     
-    override init() {
-        super.init()
-
-        let geo = SCNSphere(radius: 2.0)
-        geo.firstMaterial?.diffuse.contents = UIColor(red: 0.3, green: 0.5, blue: 0.4, alpha: 1 )
-        
-        
-        //self.geometry becasue this class conforms to SCNNode
-        self.geometry = geo
-        
-        //let geoNode = SCNNode(geometry: geometry)
-        self.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
-        
-       // scnScene.rootNode.addChildNode(geoNode)
-        
-    }
+    var birdNode:SCNNode?
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    var scene:SCNScene! = SCNScene(named: "art.scnassets/Ball.scn")!
+    
+    init(){
+        
+        birdNode = scene.rootNode.childNode(withName: "ball", recursively: true)!
     }
     
 }
