@@ -10,6 +10,9 @@
  Setting up from
  https://www.raywenderlich.com/1261-scene-kit-tutorial-with-swift-part-1-getting-started
  
+ Collision and Camera
+ https://github.com/brianadvent/HitTheTree/blob/master/HitTheTree/GameViewController.swift
+ 
  */
 
 import UIKit
@@ -29,7 +32,7 @@ class GameViewController: UIViewController {
     var pipe: [Pipe]!
     let maxPipes = 5
     
-    
+    let CategoryPipe = 4
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,11 +73,12 @@ class GameViewController: UIViewController {
     func setupScene() {
         
         sceneScene = SCNScene(named: "art.scnassets/MainScene.scn")
-        
-        sceneView.scene = sceneScene
-        
         sceneView.delegate = self
         
+        sceneView.scene = sceneScene
+        sceneScene.physicsWorld.contactDelegate = self
+
+
         
         let tapRecognizer = UITapGestureRecognizer()
         tapRecognizer.numberOfTouchesRequired = 1
@@ -105,18 +109,21 @@ class GameViewController: UIViewController {
         
         bird = Bird()
         
+        //needed so that once ball is in contact with pipe, physicsWorld func is called
+        bird.birdNode!.physicsBody?.contactTestBitMask = CategoryPipe
+        
         pipe = []
         for i in 1...maxPipes{
             let dist = i*(-10)
             pipe.append(Pipe(x: 0, y: 5, z: CGFloat(dist)))
             pipe.append(Pipe(x: 0, y: 15, z: CGFloat(dist)))
-
+            
         }
         
-//        pipe = [Pipe(x: 0,y: 5,z: -10),
-//                Pipe(x: 0,y: 15,z: -10),
-//                Pipe(x: 0,y: 5,z: -15),
-//                Pipe(x: 0,y: 15,z: -15)]
+        //        pipe = [Pipe(x: 0,y: 5,z: -10),
+        //                Pipe(x: 0,y: 15,z: -10),
+        //                Pipe(x: 0,y: 5,z: -15),
+        //                Pipe(x: 0,y: 15,z: -15)]
         
         sceneScene.rootNode.addChildNode(bird.birdNode!)
         
@@ -158,7 +165,6 @@ extension GameViewController : SCNSceneRendererDelegate {
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
         
         //Camera follows the ball.
-        //Referenced https://github.com/brianadvent/HitTheTree/blob/master/HitTheTree/GameViewController.swift
         
         let ball = bird.birdNode!.presentation
         let ballPosition = ball.position
@@ -182,13 +188,43 @@ extension GameViewController : SCNSceneRendererDelegate {
         //print(ballPosition)
         let bound = ((-10) * Float(maxPipes)) - 10
         if(ballPosition.z < bound){
+            //print("called .z")
             bird.birdNode?.position = SCNVector3(0,0,0)
-            pipe.forEach(){
-                $0.pipeNode?.position = $0.position
-            }
-            
-            
+            bird.birdNode?.physicsBody?.clearAllForces()
+
         }
+        if(ballPosition.x > 0.5 || ballPosition.x < -0.5){
+            //print("called .x")
+            bird.birdNode?.position = SCNVector3(0,ballPosition.y,ballPosition.z)
+            bird.birdNode?.physicsBody?.clearAllForces()
+
+        }
+        
+    }
+}
+
+//Collision?
+extension GameViewController : SCNPhysicsContactDelegate {
+    func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
+        var contactNode:SCNNode!
+        
+        print(contact.nodeA.name ?? "None")
+        
+        if contact.nodeA.name == "ball" {
+            contactNode = contact.nodeB
+        }
+        else{
+            contactNode = contact.nodeA
+        }
+        
+        if contactNode.physicsBody?.categoryBitMask == CategoryPipe {
+            bird.birdNode?.position = SCNVector3(0,0,0)
+            bird.birdNode?.physicsBody?.resetTransform()
+            bird.birdNode?.physicsBody?.clearAllForces()
+
+
+        }
+
         
     }
 }
