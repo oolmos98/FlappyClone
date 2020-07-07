@@ -12,7 +12,7 @@
 		9000486924B3CF2D00817581 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9000486724B3CF2D00817581 /* Main.storyboard */; };
 		9000486B24B3CF2F00817581 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9000486A24B3CF2F00817581 /* Assets.xcassets */; };
 		9000486E24B3CF2F00817581 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9000486C24B3CF2F00817581 /* LaunchScreen.storyboard */; };
-		9000487624B3D63600817581 /* Flappy.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 9000487524B3D63600817581 /* Flappy.scnassets */; };
+		9000487624B3D63600817581 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 9000487524B3D63600817581 /* art.scnassets */; };
 		9000487B24B3DF7E00817581 /* Bird.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9000487A24B3DF7E00817581 /* Bird.swift */; };
 /* End PBXBuildFile section */
 
@@ -24,7 +24,7 @@
 		9000486A24B3CF2F00817581 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9000486D24B3CF2F00817581 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9000486F24B3CF2F00817581 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9000487524B3D63600817581 /* Flappy.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = Flappy.scnassets; sourceTree = "<group>"; };
+		9000487524B3D63600817581 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 		9000487A24B3DF7E00817581 /* Bird.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bird.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -63,7 +63,7 @@
 				9000486524B3CF2D00817581 /* GameViewController.swift */,
 				9000486724B3CF2D00817581 /* Main.storyboard */,
 				9000486A24B3CF2F00817581 /* Assets.xcassets */,
-				9000487524B3D63600817581 /* Flappy.scnassets */,
+				9000487524B3D63600817581 /* art.scnassets */,
 				9000486C24B3CF2F00817581 /* LaunchScreen.storyboard */,
 				9000486F24B3CF2F00817581 /* Info.plist */,
 			);
@@ -137,7 +137,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9000486E24B3CF2F00817581 /* LaunchScreen.storyboard in Resources */,
-				9000487624B3D63600817581 /* Flappy.scnassets in Resources */,
+				9000487624B3D63600817581 /* art.scnassets in Resources */,
 				9000486B24B3CF2F00817581 /* Assets.xcassets in Resources */,
 				9000486924B3CF2D00817581 /* Main.storyboard in Resources */,
 			);

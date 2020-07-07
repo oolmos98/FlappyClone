@@ -33,9 +33,6 @@ class GameViewController: UIViewController {
         setupObjects()
     }
     
-    
-    
-    
     //Handles device rotation
     override var shouldAutorotate: Bool {
         return true
@@ -61,18 +58,15 @@ class GameViewController: UIViewController {
         scnView.showsStatistics = true
         scnView.allowsCameraControl = true
         scnView.autoenablesDefaultLighting = true
-
-        
-        
     }
     
     func setupScene() {
-        scnScene = SCNScene()
+        
+        scnScene = SCNScene(named: "art.scnassets/MainScene.scn")
+        
         scnView.scene = scnScene
         
         scnView.backgroundColor = UIColor.cyan
-        
-
     }
     
     func setupCamera() {
@@ -83,30 +77,30 @@ class GameViewController: UIViewController {
         cameraNode.camera = SCNCamera()
         
         // Assign its position in the scene
-        cameraNode.position = SCNVector3(x: 0, y: 0, z: 10)
+        cameraNode.position = SCNVector3(x: 0, y: 2, z: 10)
         
         // Add camera node to child of scene root node
         scnScene.rootNode.addChildNode(cameraNode)
     }
     
     func setupObjects(){
-//        var geometry: SCNGeometry
-//
-//        geometry = SCNSphere(radius: 2.0)
-//        geometry.firstMaterial?.diffuse.contents = UIColor(red: 0.3, green: 0.5, blue: 0.4, alpha: 1 )
-//
-//        let geoNode = SCNNode(geometry: geometry)
-//
-//        //Adds physics properties such as gravity on init. Physics engine is applied to this object for type .dynamic
-//        geoNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
-//
-//        scnScene.rootNode.addChildNode(geoNode)
+        //        var geometry: SCNGeometry
+        //
+        //        geometry = SCNSphere(radius: 2.0)
+        //        geometry.firstMaterial?.diffuse.contents = UIColor(red: 0.3, green: 0.5, blue: 0.4, alpha: 1 )
+        //
+        //        let geoNode = SCNNode(geometry: geometry)
+        //
+        //        //Adds physics properties such as gravity on init. Physics engine is applied to this object for type .dynamic
+        //        geoNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
+        //
+        //        scnScene.rootNode.addChildNode(geoNode)
         
         //Creating bird node from a class
         let birdNode = BirdNode()
         //Adding bird node to child
         scnScene.rootNode.addChildNode(birdNode)
-
+        
     }
     
 }
