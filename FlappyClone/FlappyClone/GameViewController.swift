@@ -79,7 +79,7 @@ class GameViewController: UIViewController {
         sceneScene = SCNScene(named: "art.scnassets/MainScene.scn")
         
         sceneView.delegate = self
-        sceneView.scene = sceneScene
+        sceneView.scene = MainScene()
         sceneScene.physicsWorld.contactDelegate = self
         
         
@@ -90,6 +90,9 @@ class GameViewController: UIViewController {
         tapRecognizer.addTarget(self, action: #selector(GameViewController.sceneViewTapped(recognizer:)))
         sceneView.addGestureRecognizer(tapRecognizer)
         
+        
+        // Adds a Overlay to the scene, this uses SpriteKit
+        sceneView.overlaySKScene = Overlay(size: sceneView.frame.size)
     }
     
     func setupCamera() {
