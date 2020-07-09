@@ -25,11 +25,18 @@ class Bird {
     }
     
     func jump(){
+        let x = birdNode!.presentation.position.x
+        let y = birdNode!.presentation.position.y
+        let z = birdNode!.presentation.position.z
+        
+        
         if(birdNode!.position.x != 0){
             birdNode!.physicsBody?.applyForce(SCNVector3(x: -birdNode!.position.x, y: 1.5, z: -0.5), asImpulse: true)
+            
         }
         else{
             birdNode!.physicsBody?.applyForce(SCNVector3(x: 0, y: 1.5, z: -0.5), asImpulse: true)
+            
         }
     }
     

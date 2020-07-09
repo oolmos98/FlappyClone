@@ -77,7 +77,7 @@ class GameViewController: UIViewController {
     }
     
     func setupScene() {
-    
+        
         mainScene = Main()
         
         sceneView.delegate = self
@@ -112,7 +112,7 @@ class GameViewController: UIViewController {
         //            }
         //        }
         
-
+        
         mainScene.bird.jump() //bird jump hehe
     }
     

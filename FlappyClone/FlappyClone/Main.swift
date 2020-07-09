@@ -56,8 +56,10 @@ class Main: NSObject {
         mainScene.rootNode.addChildNode(bird.birdNode!)
         
         pipe = []
+        var dist = -15
         for i in 1...maxPipes{
-            let dist = i*(-20) - 20
+            dist = i*(-10) + dist
+            print(dist)
             let randomHeight = Int.random(in: 0..<10)
             pipe.append(Pipe(x: 0, y: 5 + CGFloat(randomHeight), z: CGFloat(dist), dir: true))
             pipe.append(Pipe(x: 0, y: 15 + CGFloat(randomHeight), z: CGFloat(dist), dir: false))
@@ -65,7 +67,7 @@ class Main: NSObject {
         }
         bound = pipe[pipe.count-1].position.z - 10
         
-
+        
         pipe.forEach(){
             mainScene.rootNode.addChildNode($0.pipeNode!)
         }
@@ -76,7 +78,8 @@ class Main: NSObject {
         
         var i = 0
         while(i < maxPipes-1){
-            let dist = (i*(-10)) - 20
+            let dist = (i*(-10)) - 30
+            
             let randomHeight = Int.random(in: 0..<10)
             
             pipe[i].changePosition(x: 0, y: 5 + CGFloat(randomHeight), z: CGFloat(dist))
@@ -86,7 +89,7 @@ class Main: NSObject {
         }
         
         bound = pipe[pipe.count-1].position.z - 10
-    
+        
         
     }
     
