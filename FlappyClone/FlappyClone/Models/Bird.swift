@@ -15,7 +15,7 @@ class Bird {
     
     var birdNode:SCNNode?
     
-    var scene:SCNScene! = SCNScene(named: "art.scnassets/Ball.scn")!
+    var scene:SCNScene! = SCNScene(named: "art.scnassets/bird.scn")!
     
     init(){
         birdNode = scene.rootNode.childNode(withName: "ball", recursively: true)!

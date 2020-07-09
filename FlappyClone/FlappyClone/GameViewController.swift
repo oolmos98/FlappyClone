@@ -114,7 +114,7 @@ class GameViewController: UIViewController {
             bird = Bird()
             
             //needed so that once ball is in contact with pipe, physicsWorld func is called
-            bird.birdNode!.physicsBody?.contactTestBitMask = CategoryPipe
+            //bird.birdNode!.physicsBody?.contactTestBitMask = CategoryPipe
             
             pipe = []
             for i in 1...maxPipes{
@@ -123,11 +123,6 @@ class GameViewController: UIViewController {
                 pipe.append(Pipe(x: 0, y: 15, z: CGFloat(dist)))
                 
             }
-            
-            //        pipe = [Pipe(x: 0,y: 5,z: -10),
-            //                Pipe(x: 0,y: 15,z: -10),
-            //                Pipe(x: 0,y: 5,z: -15),
-            //                Pipe(x: 0,y: 15,z: -15)]
             
             sceneScene.rootNode.addChildNode(bird.birdNode!)
             
