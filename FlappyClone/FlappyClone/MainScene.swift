@@ -17,13 +17,18 @@ class MainScene: SCNScene {
     var pipe: [Pipe]!
     let maxPipes = 5
     
+    //var floor: Floor!
+
+    
     let CategoryPipe = 4
     
     
     override init() {
         super.init()
         
+        //floor = Floor()
         bird = Bird()
+        
         setupCamera()
         setupObjects()
     }
@@ -43,16 +48,18 @@ class MainScene: SCNScene {
     }
     
     func setupObjects() {
+        //self.rootNode.addChildNode(floor.floorNode!)
+        self.rootNode.addChildNode(bird.birdNode!)
+
         pipe = []
         for i in 1...maxPipes{
             let dist = i*(-10)
             let randomHeight = Int.random(in: 0..<10)
-            pipe.append(Pipe(x: 0, y: 5 + CGFloat(randomHeight), z: CGFloat(dist)))
-            pipe.append(Pipe(x: 0, y: 15 + CGFloat(randomHeight), z: CGFloat(dist)))
+            pipe.append(Pipe(x: 0, y: 5 + CGFloat(randomHeight), z: CGFloat(dist), dir: true))
+            pipe.append(Pipe(x: 0, y: 15 + CGFloat(randomHeight), z: CGFloat(dist), dir: false))
             
         }
         
-        self.rootNode.addChildNode(bird.birdNode!)
         
         pipe.forEach(){
             self.rootNode.addChildNode($0.pipeNode!)

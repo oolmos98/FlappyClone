@@ -17,8 +17,11 @@ class Bird {
     
     var scene:SCNScene! = SCNScene(named: "art.scnassets/bird.scn")!
     
+    var initLocation: SCNVector3!
+    
     init(){
-        birdNode = scene.rootNode.childNode(withName: "ball", recursively: true)!
+        birdNode = scene.rootNode.childNode(withName: "bird", recursively: true)!
+        initLocation = birdNode?.position
     }
     
     func jump(){
