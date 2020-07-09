@@ -23,6 +23,9 @@ class Main: NSObject {
     
     var bound: Float = 0
     
+    var currentIndex = 0
+    var failed_passed = false
+    
     
     override init() {
         super.init()
@@ -93,6 +96,31 @@ class Main: NSObject {
         
     }
     
+    func checkPass(){
+        
+        if(!failed_passed){
+            if(currentIndex < pipe.count){
+                if((pipe[currentIndex].pipeNode?.presentation.position.z)! > (bird.birdNode?.presentation.position.z)!){
+                    print("if accept")
+                    pipe[currentIndex].pipeNode?.isHidden = true
+                    pipe[currentIndex+1].pipeNode?.isHidden = true
+                    
+                    currentIndex += 2
+                }
+            }
+        }
+        else{
+            pipe.forEach(){
+                $0.pipeNode?.isHidden = false
+            }
+            failed_passed = false
+            
+            currentIndex = 0
+            
+        }
+        print(currentIndex)
+    }
+    
     func updateCamera(){
         let ball = bird.birdNode!.presentation
         let ballPosition = ball.position
@@ -112,9 +140,12 @@ class Main: NSObject {
         cameraNode.position = cameraPosition
         
         if(ballPosition.z < bound){
-            bird.birdNode?.position = SCNVector3(0,0,0)
+            failed_passed = true
+            bird.birdNode?.position = bird.initLocation
             bird.birdNode?.physicsBody?.clearAllForces()
             randomize()
+            currentIndex = 0
+            
         }
         if(ballPosition.x > 0.5 || ballPosition.x < -0.5){
             bird.birdNode?.position = SCNVector3(0,ballPosition.y,ballPosition.z)
@@ -139,10 +170,12 @@ extension Main : SCNPhysicsContactDelegate {
         }
         
         if contactNode.physicsBody?.categoryBitMask == CategoryPipe {
+            failed_passed = true
             bird.birdNode?.position = bird.initLocation
-            randomize()
+            currentIndex = 0
             bird.birdNode?.physicsBody?.resetTransform()
             bird.birdNode?.physicsBody?.clearAllForces()
+            randomize()
         }
     }
 }

@@ -130,6 +130,7 @@ extension GameViewController : SCNSceneRendererDelegate {
         
         //Camera follows the ball.
         mainScene.updateCamera()
+        mainScene.checkPass()
         
     }
     
