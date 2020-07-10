@@ -26,6 +26,8 @@ class Main: NSObject {
     var currentIndex = 0
     var failed_passed = false
     
+    var score = 0
+    
     
     override init() {
         super.init()
@@ -62,7 +64,7 @@ class Main: NSObject {
         var dist = -15
         for i in 1...maxPipes{
             dist = i*(-10) + dist
-            print(dist)
+            //print(dist)
             let randomHeight = Int.random(in: 0..<10)
             pipe.append(Pipe(x: 0, y: 5 + CGFloat(randomHeight), z: CGFloat(dist), dir: true))
             pipe.append(Pipe(x: 0, y: 15 + CGFloat(randomHeight), z: CGFloat(dist), dir: false))
@@ -101,10 +103,10 @@ class Main: NSObject {
         if(!failed_passed){
             if(currentIndex < pipe.count){
                 if((pipe[currentIndex].pipeNode?.presentation.position.z)! > (bird.birdNode?.presentation.position.z)!){
-                    print("if accept")
+                    //print("if accept")
                     pipe[currentIndex].pipeNode?.isHidden = true
                     pipe[currentIndex+1].pipeNode?.isHidden = true
-                    
+                    score += 1
                     currentIndex += 2
                 }
             }
@@ -116,9 +118,11 @@ class Main: NSObject {
             failed_passed = false
             
             currentIndex = 0
+            score = 0
+
             
         }
-        print(currentIndex)
+        //print(currentIndex)
     }
     
     func updateCamera(){
@@ -173,6 +177,8 @@ extension Main : SCNPhysicsContactDelegate {
             failed_passed = true
             bird.birdNode?.position = bird.initLocation
             currentIndex = 0
+            score = 0
+
             bird.birdNode?.physicsBody?.resetTransform()
             bird.birdNode?.physicsBody?.clearAllForces()
             randomize()

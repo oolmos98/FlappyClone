@@ -38,6 +38,8 @@ class GameViewController: UIViewController {
     
     let CategoryPipe = 4
     
+    var overlayScene: Overlay!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -70,7 +72,7 @@ class GameViewController: UIViewController {
         // retrieve the SCNView
         sceneView = (self.view as! SCNView)
         
-        sceneView.showsStatistics = true
+        sceneView.showsStatistics = false
         sceneView.allowsCameraControl = false //False since we are manipulating the camera via ball movements and touches
         sceneView.autoenablesDefaultLighting = true
         
@@ -83,16 +85,22 @@ class GameViewController: UIViewController {
         sceneView.delegate = self
         sceneView.scene = mainScene.mainScene
         
+        // Adds a Overlay to the scene, this uses SpriteKit
+        overlayScene = Overlay(size: sceneView.frame.size)
+        
+        sceneView.overlaySKScene = overlayScene
+        
         let tapRecognizer = UITapGestureRecognizer()
         tapRecognizer.numberOfTouchesRequired = 1
         tapRecognizer.numberOfTapsRequired = 1
         
         tapRecognizer.addTarget(self, action: #selector(GameViewController.sceneViewTapped(recognizer:)))
+        tapRecognizer.cancelsTouchesInView = false
+
         sceneView.addGestureRecognizer(tapRecognizer)
         
         
-        // Adds a Overlay to the scene, this uses SpriteKit
-        sceneView.overlaySKScene = Overlay(size: sceneView.frame.size)
+        
     }
     
     @objc func sceneViewTapped (recognizer:UITapGestureRecognizer) {
@@ -131,6 +139,13 @@ extension GameViewController : SCNSceneRendererDelegate {
         //Camera follows the ball.
         mainScene.updateCamera()
         mainScene.checkPass()
+        
+        
+        if let overlay = sceneView.overlaySKScene as? Overlay {
+            overlay.score = mainScene.score
+        }
+
+        
         
     }
     

@@ -6,10 +6,11 @@
 //  Copyright © 2020 Omar Olmos. All rights reserved.
 //
 
-import Foundation
+//import Foundation
 import SpriteKit
 
 open class Overlay : SKScene {
+    
     open var scoreLabel : SKLabelNode!
     var score = 0 {
         didSet {
@@ -19,11 +20,17 @@ open class Overlay : SKScene {
     
     override init(size: CGSize) {
         super.init(size: size)
-        scaleMode = .resizeFill
-        scoreLabel = SKLabelNode(fontNamed: "Chalkduster")
-        scoreLabel.fontColor = UIColor.black
-        scoreLabel?.position = CGPoint(x: 0, y: 0)
-        self.addChild(scoreLabel!)
+        self.scaleMode = .resizeFill
+        
+        self.scoreLabel = SKLabelNode(fontNamed: "Chalkduster")
+        self.scoreLabel.name = "score"
+        self.scoreLabel.text = "Score: \(score)"
+        self.scoreLabel.fontColor = UIColor.white
+        self.scoreLabel.position = CGPoint(x: size.width/2, y: size.height/10)
+        //self.scoreLabel.fontSize = CGFloat(50)
+        
+        self.addChild(scoreLabel)
+
     }
     
     required public init?(coder aDecoder: NSCoder) {
