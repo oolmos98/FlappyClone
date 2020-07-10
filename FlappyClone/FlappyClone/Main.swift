@@ -17,7 +17,7 @@ class Main: NSObject {
     var bird: Bird!
     // Pipe Object
     var pipe: [Pipe]!
-    let maxPipes = 5
+    let maxPipes = 10
     
     let CategoryPipe = 4
     
@@ -61,10 +61,10 @@ class Main: NSObject {
         mainScene.rootNode.addChildNode(bird.birdNode!)
         
         pipe = []
-        var dist = -15
+        var dist = 0
         for i in 1...maxPipes{
-            dist = i*(-10) + dist
-            //print(dist)
+            dist = i*(-20) - 15
+            print(dist)
             let randomHeight = Int.random(in: 0..<10)
             pipe.append(Pipe(x: 0, y: 5 + CGFloat(randomHeight), z: CGFloat(dist), dir: true))
             pipe.append(Pipe(x: 0, y: 15 + CGFloat(randomHeight), z: CGFloat(dist), dir: false))
@@ -98,6 +98,11 @@ class Main: NSObject {
         
     }
     
+    func animate() -> SCNAction{
+        return SCNAction.rotate(by: CGFloat(2.0*Double.pi), around: bird.birdNode!.position, duration: 2)
+        
+    }
+    
     func checkPass(){
         
         if(!failed_passed){
@@ -119,7 +124,7 @@ class Main: NSObject {
             
             currentIndex = 0
             score = 0
-
+            
             
         }
         //print(currentIndex)
@@ -144,11 +149,14 @@ class Main: NSObject {
         cameraNode.position = cameraPosition
         
         if(ballPosition.z < bound){
-            failed_passed = true
-            bird.birdNode?.position = bird.initLocation
-            bird.birdNode?.physicsBody?.clearAllForces()
-            randomize()
-            currentIndex = 0
+            bird.birdNode?.runAction(animate(), completionHandler:{
+                
+                self.failed_passed = true
+                self.bird.birdNode?.position = self.bird.initLocation
+                self.bird.birdNode?.physicsBody?.clearAllForces()
+                self.randomize()
+                self.currentIndex = 0
+            })
             
         }
         if(ballPosition.x > 0.5 || ballPosition.x < -0.5){
@@ -174,14 +182,17 @@ extension Main : SCNPhysicsContactDelegate {
         }
         
         if contactNode.physicsBody?.categoryBitMask == CategoryPipe {
-            failed_passed = true
-            bird.birdNode?.position = bird.initLocation
-            currentIndex = 0
-            score = 0
+            bird.birdNode?.runAction(animate(), completionHandler:{
+                self.failed_passed = true
 
-            bird.birdNode?.physicsBody?.resetTransform()
-            bird.birdNode?.physicsBody?.clearAllForces()
-            randomize()
+                self.bird.birdNode?.position = self.bird.initLocation
+                self.currentIndex = 0
+                self.score = 0
+                
+                self.bird.birdNode?.physicsBody?.resetTransform()
+                self.bird.birdNode?.physicsBody?.clearAllForces()
+                self.randomize()
+            })
         }
     }
 }
