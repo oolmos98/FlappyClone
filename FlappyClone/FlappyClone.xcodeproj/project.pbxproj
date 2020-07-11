@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		5F3E918F24B6E5D1009C89F9 /* Overlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3E918E24B6E5D1009C89F9 /* Overlay.swift */; };
-		5F3E919124B6E5DF009C89F9 /* MainScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3E919024B6E5DF009C89F9 /* MainScene.swift */; };
 		9000486224B3CF2D00817581 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9000486124B3CF2D00817581 /* AppDelegate.swift */; };
 		9000486624B3CF2D00817581 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9000486524B3CF2D00817581 /* GameViewController.swift */; };
 		9000486924B3CF2D00817581 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9000486724B3CF2D00817581 /* Main.storyboard */; };
@@ -19,11 +18,12 @@
 		9028740024B6FEE400D80352 /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902873FF24B6FEE400D80352 /* Main.swift */; };
 		904BA9CB24B693B0003CB465 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904BA9CA24B693B0003CB465 /* User.swift */; };
 		9054FE5624B4FE6E0068FB1C /* Pipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9054FE5524B4FE6E0068FB1C /* Pipe.swift */; };
+		90EB16EF24BA441200280CC8 /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90EB16EE24BA441200280CC8 /* Menu.swift */; };
+		90EB16F124BA458400280CC8 /* MenuSK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90EB16F024BA458400280CC8 /* MenuSK.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		5F3E918E24B6E5D1009C89F9 /* Overlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Overlay.swift; sourceTree = "<group>"; };
-		5F3E919024B6E5DF009C89F9 /* MainScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainScene.swift; sourceTree = "<group>"; };
 		9000485E24B3CF2D00817581 /* FlappyClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlappyClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9000486124B3CF2D00817581 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9000486524B3CF2D00817581 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
@@ -36,6 +36,8 @@
 		902873FF24B6FEE400D80352 /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		904BA9CA24B693B0003CB465 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		9054FE5524B4FE6E0068FB1C /* Pipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pipe.swift; sourceTree = "<group>"; };
+		90EB16EE24BA441200280CC8 /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
+		90EB16F024BA458400280CC8 /* MenuSK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuSK.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,8 +70,6 @@
 		9000486024B3CF2D00817581 /* FlappyClone */ = {
 			isa = PBXGroup;
 			children = (
-				5F3E919024B6E5DF009C89F9 /* MainScene.swift */,
-				902873FF24B6FEE400D80352 /* Main.swift */,
 				9000487724B3DF2D00817581 /* Models */,
 				9000486124B3CF2D00817581 /* AppDelegate.swift */,
 				9000486524B3CF2D00817581 /* GameViewController.swift */,
@@ -85,6 +85,9 @@
 		9000487724B3DF2D00817581 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				902873FF24B6FEE400D80352 /* Main.swift */,
+				90EB16EE24BA441200280CC8 /* Menu.swift */,
+				90EB16F024BA458400280CC8 /* MenuSK.swift */,
 				5F3E918E24B6E5D1009C89F9 /* Overlay.swift */,
 				9000487A24B3DF7E00817581 /* Bird.swift */,
 				9054FE5524B4FE6E0068FB1C /* Pipe.swift */,
@@ -168,9 +171,10 @@
 				9028740024B6FEE400D80352 /* Main.swift in Sources */,
 				9000486624B3CF2D00817581 /* GameViewController.swift in Sources */,
 				9000487B24B3DF7E00817581 /* Bird.swift in Sources */,
+				90EB16F124BA458400280CC8 /* MenuSK.swift in Sources */,
 				9000486224B3CF2D00817581 /* AppDelegate.swift in Sources */,
-				5F3E919124B6E5DF009C89F9 /* MainScene.swift in Sources */,
 				904BA9CB24B693B0003CB465 /* User.swift in Sources */,
+				90EB16EF24BA441200280CC8 /* Menu.swift in Sources */,
 				5F3E918F24B6E5D1009C89F9 /* Overlay.swift in Sources */,
 				9054FE5624B4FE6E0068FB1C /* Pipe.swift in Sources */,
 			);

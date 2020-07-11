@@ -96,7 +96,7 @@ class GameViewController: UIViewController {
         
         tapRecognizer.addTarget(self, action: #selector(GameViewController.sceneViewTapped(recognizer:)))
         tapRecognizer.cancelsTouchesInView = false
-
+        
         sceneView.addGestureRecognizer(tapRecognizer)
         
         
@@ -137,14 +137,17 @@ extension GameViewController : SCNSceneRendererDelegate {
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
         
         //Camera follows the ball.
-        mainScene.updateCamera()
-        mainScene.checkPass()
+        
+        if(!mainScene.resetting){
+            mainScene.updateCamera()
+            mainScene.checkPass()
+        }
         
         
         if let overlay = sceneView.overlaySKScene as? Overlay {
             overlay.score = mainScene.score
         }
-
+        
         
         
     }

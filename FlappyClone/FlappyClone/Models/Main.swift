@@ -27,7 +27,7 @@ class Main: NSObject {
     var failed_passed = false
     
     var score = 0
-    
+    var resetting:Bool = false
     
     override init() {
         super.init()
@@ -81,11 +81,13 @@ class Main: NSObject {
     
     func randomize(){
         
+        self.hidePipe(yah: true)
+        
         var i = 0
         while(i < maxPipes-1){
             let dist = (i*(-10)) - 30
             
-            let randomHeight = Int.random(in: 0..<10)
+            let randomHeight = Int.random(in: 5..<15)
             
             pipe[i].changePosition(x: 0, y: 5 + CGFloat(randomHeight), z: CGFloat(dist))
             pipe[i+1].changePosition(x: 0, y: 15 + CGFloat(randomHeight), z: CGFloat(dist))
@@ -94,21 +96,20 @@ class Main: NSObject {
         }
         
         bound = pipe[pipe.count-1].position.z - 10
-        
+        self.hidePipe(yah: false)
+
         
     }
     
     func animate() -> SCNAction{
-        return SCNAction.rotate(by: CGFloat(2.0*Double.pi), around: bird.birdNode!.position, duration: 2)
-        
+        return SCNAction.rotate(by: CGFloat(2.0*Double.pi), around: bird.birdNode!.position, duration: 1)
     }
     
     func checkPass(){
         
-        if(!failed_passed){
+        if(!resetting){
             if(currentIndex < pipe.count){
                 if((pipe[currentIndex].pipeNode?.presentation.position.z)! > (bird.birdNode?.presentation.position.z)!){
-                    //print("if accept")
                     pipe[currentIndex].pipeNode?.isHidden = true
                     pipe[currentIndex+1].pipeNode?.isHidden = true
                     score += 1
@@ -116,18 +117,13 @@ class Main: NSObject {
                 }
             }
         }
-        else{
-            pipe.forEach(){
-                $0.pipeNode?.isHidden = false
-            }
-            failed_passed = false
-            
-            currentIndex = 0
-            score = 0
-            
-            
-        }
-        //print(currentIndex)
+//        else{
+//            pipe.forEach(){
+//                $0.pipeNode?.isHidden = false
+//            }
+//            failed_passed = false
+//            currentIndex = 0
+//        }
     }
     
     func updateCamera(){
@@ -149,20 +145,38 @@ class Main: NSObject {
         cameraNode.position = cameraPosition
         
         if(ballPosition.z < bound){
-            bird.birdNode?.runAction(animate(), completionHandler:{
-                
-                self.failed_passed = true
-                self.bird.birdNode?.position = self.bird.initLocation
-                self.bird.birdNode?.physicsBody?.clearAllForces()
-                self.randomize()
-                self.currentIndex = 0
+
+            bird.birdNode?.runAction(animate() , completionHandler:{
+
+                self.reset(type: false)
+
             })
-            
+
         }
         if(ballPosition.x > 0.5 || ballPosition.x < -0.5){
             bird.birdNode?.position = SCNVector3(0,ballPosition.y,ballPosition.z)
             bird.birdNode?.physicsBody?.clearAllForces()
             
+        }
+    }
+    func reset(type: Bool) {
+        self.resetting = true
+        //self.failed_passed = true
+        self.currentIndex = 0
+        self.score = type ? 0 : self.score
+        self.bird.birdNode?.physicsBody?.resetTransform()
+        self.bird.birdNode?.physicsBody?.clearAllForces()
+        self.randomize()
+        self.bird.birdNode?.position = self.bird.initLocation
+        
+        self.resetting = false
+        self.hidePipe(yah: false)
+        
+    }
+    
+    func hidePipe(yah: Bool) {
+        pipe.forEach(){
+            $0.pipeNode?.isHidden = yah
         }
     }
     
@@ -182,16 +196,8 @@ extension Main : SCNPhysicsContactDelegate {
         }
         
         if contactNode.physicsBody?.categoryBitMask == CategoryPipe {
-            bird.birdNode?.runAction(animate(), completionHandler:{
-                self.failed_passed = true
-
-                self.bird.birdNode?.position = self.bird.initLocation
-                self.currentIndex = 0
-                self.score = 0
-                
-                self.bird.birdNode?.physicsBody?.resetTransform()
-                self.bird.birdNode?.physicsBody?.clearAllForces()
-                self.randomize()
+            bird.birdNode?.runAction(animate() , completionHandler:{
+                self.reset(type: true)
             })
         }
     }
