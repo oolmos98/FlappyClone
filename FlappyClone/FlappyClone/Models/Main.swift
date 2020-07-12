@@ -76,7 +76,10 @@ class Main: NSObject {
         pipe.forEach(){
             mainScene.rootNode.addChildNode($0.pipeNode!)
         }
+        
+       
     }
+    
     
     func randomize(){
         
@@ -171,9 +174,6 @@ class Main: NSObject {
         
         self.resetting = false
         self.hidePipe(yah: false)
-        
-        
-        
     }
     
     func hidePipe(yah: Bool) {

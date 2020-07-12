@@ -85,10 +85,13 @@ class GameViewController: UIViewController {
         sceneView.delegate = self
         sceneView.scene = mainScene.mainScene
         
+        
         // Adds a Overlay to the scene, this uses SpriteKit
         overlayScene = Overlay(size: sceneView.frame.size)
         
         sceneView.overlaySKScene = overlayScene
+        
+        prepareSoundEngine(rootNode: mainScene.bird.birdNode!)
         
         let tapRecognizer = UITapGestureRecognizer()
         tapRecognizer.numberOfTouchesRequired = 1
@@ -99,9 +102,22 @@ class GameViewController: UIViewController {
         
         sceneView.addGestureRecognizer(tapRecognizer)
         
-        
-        
     }
+    
+    
+    func prepareSoundEngine(rootNode: SCNNode) {
+        let sound = SCNAudioSource(named: "Sounds/init.mp3")!
+        sound.load()
+        let player = SCNAudioPlayer(source: sound)
+
+        player.didFinishPlayback = {
+            rootNode.removeAudioPlayer(player)
+        }
+
+        rootNode.addAudioPlayer(player)
+    }
+    
+    
     
     @objc func sceneViewTapped (recognizer:UITapGestureRecognizer) {
         

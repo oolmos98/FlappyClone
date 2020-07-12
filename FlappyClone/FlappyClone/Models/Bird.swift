@@ -26,14 +26,20 @@ class Bird {
         birdNode = scene.rootNode.childNode(withName: "bird", recursively: true)!
         initLocation = birdNode?.position
         
+        
+        
         source = SCNAudioSource(fileNamed: "Sounds/yeet.mp3")
         source!.loops = false
         source!.load()
+        
+        birdNode!.addAudioPlayer(SCNAudioPlayer(source: source!))
     }
     
     func playSound() {
         //guard birdNode!.audioPlayers.count == 0 else { return }
-        birdNode!.addAudioPlayer(SCNAudioPlayer(source: source!))
+        //
+        let playAudio = SCNAction.playAudio(source!, waitForCompletion: false)
+        birdNode!.runAction(playAudio)
     }
     
     func jump(){
@@ -49,7 +55,7 @@ class Bird {
     }
     
     func resetBird() {
-        birdNode!.removeAllAudioPlayers()
+        //birdNode!.removeAllAudioPlayers()
     }
     
 }
