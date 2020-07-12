@@ -10,7 +10,7 @@ import SceneKit
 import SpriteKit
 
 
-class Menu{
+class Menu {
     
     var cameraNode: SCNNode!
     var menuScene: SCNScene!

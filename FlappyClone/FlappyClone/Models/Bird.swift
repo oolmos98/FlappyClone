@@ -19,9 +19,27 @@ class Bird {
     
     var initLocation: SCNVector3!
     
-    init(){
+    // Sound Effects
+    var source: SCNAudioSource?
+    
+    init() {
         birdNode = scene.rootNode.childNode(withName: "bird", recursively: true)!
         initLocation = birdNode?.position
+        
+        
+        
+        source = SCNAudioSource(fileNamed: "Sounds/yeet.mp3")
+        source!.loops = false
+        source!.load()
+        
+        birdNode!.addAudioPlayer(SCNAudioPlayer(source: source!))
+    }
+    
+    func playSound() {
+        //guard birdNode!.audioPlayers.count == 0 else { return }
+        //
+        let playAudio = SCNAction.playAudio(source!, waitForCompletion: false)
+        birdNode!.runAction(playAudio)
     }
     
     func jump(){
@@ -32,8 +50,12 @@ class Bird {
         }
         else{
             birdNode!.physicsBody?.applyForce(SCNVector3(x: 0, y: 1.5, z: -0.5), asImpulse: true)
-            
         }
+        playSound()
+    }
+    
+    func resetBird() {
+        //birdNode!.removeAllAudioPlayers()
     }
     
 }
