@@ -21,12 +21,18 @@ class Main: NSObject {
     
     let CategoryPipe = 4
     
+    //far enough passed = reset basically.
     var bound: Float = 0
     
+    //No need to recaculate depth when resetting
+    var depth: [Int] = []
+    
     var currentIndex = 0
+    
     var failed_passed = false
     
     var score = 0
+    
     var resetting:Bool = false
     
     override init() {
@@ -62,9 +68,9 @@ class Main: NSObject {
         
         pipe = []
         var dist = 0
-        for i in 1...maxPipes{
+        for i in 0..<maxPipes{
             dist = i*(-20) - 15
-            print(dist)
+            depth.append(dist)
             let randomHeight = Int.random(in: 0..<10)
             pipe.append(Pipe(x: 0, y: 5 + CGFloat(randomHeight), z: CGFloat(dist), dir: true))
             pipe.append(Pipe(x: 0, y: 15 + CGFloat(randomHeight), z: CGFloat(dist), dir: false))
@@ -77,7 +83,7 @@ class Main: NSObject {
             mainScene.rootNode.addChildNode($0.pipeNode!)
         }
         
-       
+        
     }
     
     
@@ -86,9 +92,12 @@ class Main: NSObject {
         self.hidePipe(yah: true)
         
         var i = 0
-        while(i < maxPipes){
-            let dist = i*(-20) - 15
+        while(i < maxPipes * 2){
+            // Reusing same depth, no need to recalculate
+            let index:Int = i/2
+            let dist = depth[index]
             
+            // random height must be calculated
             let randomHeight = Int.random(in: 0..<10)
             
             pipe[i].changePosition(x: 0, y: 5 + CGFloat(randomHeight), z: CGFloat(dist))
@@ -97,9 +106,9 @@ class Main: NSObject {
             i += 2
         }
         
-        bound = pipe[pipe.count-1].position.z - 10
+        bound = pipe[pipe.count-1].pipeNode!.position.z - 10
         self.hidePipe(yah: false)
-
+        
         
     }
     
@@ -114,18 +123,37 @@ class Main: NSObject {
                 if((pipe[currentIndex].pipeNode?.presentation.position.z)! > (bird.birdNode?.presentation.position.z)!){
                     pipe[currentIndex].pipeNode?.isHidden = true
                     pipe[currentIndex+1].pipeNode?.isHidden = true
+                    
+                    randomizePipe(i: currentIndex, j: currentIndex+1)
                     score += 1
                     currentIndex += 2
                 }
             }
+            else{
+                currentIndex = 0
+            }
         }
-//        else{
-//            pipe.forEach(){
-//                $0.pipeNode?.isHidden = false
-//            }
-//            failed_passed = false
-//            currentIndex = 0
-//        }
+        //        else{
+        //            pipe.forEach(){
+        //                $0.pipeNode?.isHidden = false
+        //            }
+        //            failed_passed = false
+        //            currentIndex = 0
+        //        }
+    }
+    
+    func randomizePipe(i: Int, j: Int){
+        //let index:Int = i/2
+        let prevPipeIndex = (i == 0) ? ((maxPipes*2) - 1) : (i - 1)
+        let dist = pipe[prevPipeIndex].pipeNode!.position.z - 20
+        
+        let randomHeight = Int.random(in: 0..<10)
+        
+        pipe[i].changePosition(x: 0, y: 5 + CGFloat(randomHeight), z: CGFloat(dist))
+        pipe[j].changePosition(x: 0, y: 15 + CGFloat(randomHeight), z: CGFloat(dist))
+        
+        pipe[i].pipeNode?.isHidden = false
+        pipe[j].pipeNode?.isHidden = false
     }
     
     func updateCamera(){
@@ -146,15 +174,15 @@ class Main: NSObject {
         
         cameraNode.position = cameraPosition
         
-        if(ballPosition.z < bound){
-
-            bird.birdNode?.runAction(animate() , completionHandler:{
-
-                self.reset(type: false)
-
-            })
-
-        }
+//        if(ballPosition.z < bound){
+//
+//            bird.birdNode?.runAction(animate() , completionHandler:{
+//
+//                self.reset(type: false)
+//
+//            })
+//
+//        }
         if(ballPosition.x > 0.5 || ballPosition.x < -0.5){
             bird.birdNode?.position = SCNVector3(0,ballPosition.y,ballPosition.z)
             bird.birdNode?.physicsBody?.clearAllForces()

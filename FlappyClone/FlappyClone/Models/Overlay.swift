@@ -12,9 +12,22 @@ import SpriteKit
 open class Overlay : SKScene {
     
     open var scoreLabel : SKLabelNode!
+    open var highscoreLabel : SKLabelNode!
+
     var score = 0 {
         didSet {
             scoreLabel.text = "Score: \(score)"
+            if self.score > self.highscore {
+                self.highscore = self.score
+            }
+        }
+    }
+    
+    var highscore = UserDefaults.standard.integer(forKey: "highscore"){
+        didSet {
+            highscoreLabel.text = "Highscore: \(highscore)"
+
+            UserDefaults.standard.set(self.highscore, forKey: "highscore")
         }
     }
     
@@ -26,11 +39,20 @@ open class Overlay : SKScene {
         self.scoreLabel.name = "score"
         self.scoreLabel.text = "Score: \(score)"
         self.scoreLabel.fontColor = UIColor.white
-        self.scoreLabel.position = CGPoint(x: size.width/2, y: size.height/10)
+        self.scoreLabel.position = CGPoint(x: size.width/2, y: size.height/12)
         //self.scoreLabel.fontSize = CGFloat(50)
         
         self.addChild(scoreLabel)
-
+        
+        self.highscoreLabel = SKLabelNode(fontNamed: "Chalkduster")
+        self.highscoreLabel.name = "highscore"
+        self.highscoreLabel.text = "Highscore: \(highscore)"
+        self.highscoreLabel.fontColor = UIColor.white
+        self.highscoreLabel.position = CGPoint(x: size.width/2, y: size.height - 100)
+        //self.scoreLabel.fontSize = CGFloat(50)
+        
+        self.addChild(highscoreLabel)
+        
     }
     
     required public init?(coder aDecoder: NSCoder) {
