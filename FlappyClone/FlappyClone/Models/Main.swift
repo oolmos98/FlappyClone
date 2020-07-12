@@ -84,10 +84,10 @@ class Main: NSObject {
         self.hidePipe(yah: true)
         
         var i = 0
-        while(i < maxPipes-1){
-            let dist = (i*(-10)) - 30
+        while(i < maxPipes){
+            let dist = i*(-20) - 15
             
-            let randomHeight = Int.random(in: 5..<15)
+            let randomHeight = Int.random(in: 0..<10)
             
             pipe[i].changePosition(x: 0, y: 5 + CGFloat(randomHeight), z: CGFloat(dist))
             pipe[i+1].changePosition(x: 0, y: 15 + CGFloat(randomHeight), z: CGFloat(dist))
