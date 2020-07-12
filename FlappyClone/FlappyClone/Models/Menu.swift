@@ -16,8 +16,10 @@ class Menu {
     var menuScene: SCNScene!
     var menuMaterial: SCNMaterial!
     
+    var backgroundSource: SCNAudioSource!
+
+    
     var state: State!
-    var menuSK: MenuSK!
     
     
     
@@ -25,6 +27,7 @@ class Menu {
         menuScene = SCNScene(named: "art.scnassets/Menu.scn")
         state = State.menu
         setupMenu()
+        playBackgroundSound()
     }
     
     enum State {
@@ -33,73 +36,17 @@ class Menu {
     }
     
     func setupMenu() {
-        print("to be continued")
-        menuSK = MenuSK(size: CGSize(width: 300, height: 200))
+        backgroundSource = SCNAudioSource(fileNamed: "Sounds/background.mp3")
+        backgroundSource!.loops = false
+        backgroundSource!.load()
+        backgroundSource.loops = true
+        menuScene!.rootNode.addAudioPlayer(SCNAudioPlayer(source: backgroundSource!))
+        
+    }
+    
+    func playBackgroundSound() {
+        let playAudio = SCNAction.playAudio(backgroundSource!, waitForCompletion: false)
+        menuScene!.rootNode.runAction(playAudio)
     }
     
 }
-
-//Refereneces
-//Build a Menu.scn
-
-//add a backdrop and a placeholder for the Spritekit contents
-
-//Make the spritekit content.. MenuSK.swift
-
-//add the skScene to a SCNMaterial property variable
-
-//set the placeholder node ->  placeholderNode.geometry?.materials = materialmade
-
-
-
-/*
- func presentMenu() {
-   let hudNode = menuScene.rootNode.childNode(withName: "hud", recursively: true)!
- 
-   hudNode.geometry?.materials = [helper.menuHUDMaterial]
- 
-   hudNode.rotation = SCNVector4(x: 1, y: 0, z: 0, w: Float(M_PI))
-
-   helper.state = .tapToPlay
-   
-   let transition = SKTransition.crossFade(withDuration: 1.0)
-   scnView.present(
-     menuScene,
-     with: transition,
-     incomingPointOfView: nil,
-     completionHandler: nil
-   )
- }
- 
- 
- 
- 
- var menuHUDMaterial: SCNMaterial {
-   // Create a HUD label node in SpriteKit
-   let sceneSize = CGSize(width: 300, height: 200)
-   
-   let skScene = SKScene(size: sceneSize)
-   skScene.backgroundColor = UIColor(white: 0.0, alpha: 0.0)
-   
-   let instructionLabel = SKLabelNode(fontNamed: "Menlo-Bold")
-   instructionLabel.fontSize = 35
-   instructionLabel.text = "Tap To Play"
-   instructionLabel.position.x = sceneSize.width / 2
-   instructionLabel.position.y = 115
-   skScene.addChild(instructionLabel)
-   
-   menuLabelNode = SKLabelNode(fontNamed: "Menlo-Bold")
-   menuLabelNode.fontSize = 24
-   
-   menuLabelNode.position.x = sceneSize.width / 2
-   menuLabelNode.position.y = 60
-   skScene.addChild(menuLabelNode)
-   
-   let material = SCNMaterial()
-   material.lightingModel = SCNMaterial.LightingModel.constant
-   material.isDoubleSided = true
-   material.diffuse.contents = skScene
-   
-   return material
- }
- */

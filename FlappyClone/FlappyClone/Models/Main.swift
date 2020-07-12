@@ -13,6 +13,8 @@ class Main: NSObject {
     
     var cameraNode: SCNNode!
     var mainScene: SCNScene!
+    var backgroundSource: SCNAudioSource!
+
     
     var bird: Bird!
     // Pipe Object
@@ -49,8 +51,18 @@ class Main: NSObject {
         
         bird = Bird()
         
+        setupAudio()
         setupCamera()
         setupObjects()
+        playBackgroundSound()
+    }
+    
+    func setupAudio(){
+        backgroundSource = SCNAudioSource(fileNamed: "Sounds/playing.mp3")
+        backgroundSource!.loops = false
+        backgroundSource!.load()
+        backgroundSource.loops = true
+        mainScene!.rootNode.addAudioPlayer(SCNAudioPlayer(source: backgroundSource!))
     }
     
     func setupCamera() {
@@ -92,6 +104,10 @@ class Main: NSObject {
         
     }
     
+    func playBackgroundSound() {
+        let playAudio = SCNAction.playAudio(backgroundSource!, waitForCompletion: false)
+        mainScene!.rootNode.runAction(playAudio)
+    }
     
     func randomize(){
         

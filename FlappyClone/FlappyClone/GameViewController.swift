@@ -25,6 +25,7 @@ class GameViewController: UIViewController {
     
     var sceneScene: SCNScene!
     var mainScene: Main!
+    var menuScene: Menu!
     
     var cameraNode: SCNNode!
     
@@ -81,15 +82,12 @@ class GameViewController: UIViewController {
     func setupScene() {
         
         mainScene = Main()
+        menuScene = Menu()
         
         sceneView.delegate = self
-        sceneView.scene = mainScene.mainScene
+        sceneView.scene = menuScene.menuScene
         
         
-        // Adds a Overlay to the scene, this uses SpriteKit
-        overlayScene = Overlay(size: sceneView.frame.size)
-        
-        sceneView.overlaySKScene = overlayScene
         
         prepareSoundEngine(rootNode: mainScene.bird.birdNode!)
         
@@ -103,6 +101,23 @@ class GameViewController: UIViewController {
         sceneView.addGestureRecognizer(tapRecognizer)
         
     }
+    func presentGame(){
+        
+        menuScene.state = .playing
+        
+        // Adds a Overlay to the scene, this uses SpriteKit
+        overlayScene = Overlay(size: sceneView.frame.size)
+        sceneView.overlaySKScene = overlayScene
+        
+        let transition = SKTransition.doorsOpenHorizontal(withDuration: 1.0)  //SKTransition.crossFade(withDuration: 1.0)
+        sceneView.present(
+            mainScene.mainScene,
+            with: transition,
+            incomingPointOfView: nil,
+            completionHandler: nil
+        )
+    }
+    
     
     
     func prepareSoundEngine(rootNode: SCNNode) {
@@ -123,27 +138,28 @@ class GameViewController: UIViewController {
         
         //this is used typically, for now tapping can be anywhere and all it does is bounce the bird
         
-        
-        //        let location = recognizer.location(in: sceneView)
-        //        let hitResults = sceneView.hitTest(location, options: nil)
-        //
-        //        if(hitResults.count > 0){
-        //            let result = hitResults.first
-        //            if let node = result?.node{
-        //                if node.name == "bird"{
-        //                    bird.birdNode!.physicsBody?.applyForce(SCNVector3(x: 0, y: 1.5, z: 0), asImpulse: true)
-        //                }
-        //            }
-        //        }
-        
-        if(!mainScene.started){
-            mainScene.bird.birdNode?.physicsBody?.isAffectedByGravity = true
+        if(menuScene.state == .menu){
+            let location = recognizer.location(in: sceneView)
+            let hitResults = sceneView.hitTest(location, options: nil)
             
-            mainScene.started = true
+            if(hitResults.count > 0){
+                let result = hitResults.first
+                if let node = result?.node{
+                    if node.name == "hud"{
+                        presentGame()
+                    }
+                }
+            }
         }
-        mainScene.bird.jump()
-        
-        
+        else{
+            if(!mainScene.started){
+                mainScene.bird.birdNode?.physicsBody?.isAffectedByGravity = true
+                
+                mainScene.started = true
+            }
+            mainScene.bird.jump()
+            
+        }
     }
     
     override func didReceiveMemoryWarning() {

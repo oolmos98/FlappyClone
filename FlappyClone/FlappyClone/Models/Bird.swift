@@ -59,12 +59,14 @@ class Bird {
         
         if(birdNode!.position.x != 0){
             birdNode!.physicsBody?.applyForce(SCNVector3(x: -birdNode!.position.x, y: 1.7, z: -0.8), asImpulse: true)
-            
+
         }
         else{
             birdNode!.physicsBody?.applyForce(SCNVector3(x: 0, y: 1.5, z: -0.5), asImpulse: true)
         }
         playTapSound()
+        
+        
     }
     
     
