@@ -109,11 +109,11 @@ class GameViewController: UIViewController {
         let sound = SCNAudioSource(named: "Sounds/init.mp3")!
         sound.load()
         let player = SCNAudioPlayer(source: sound)
-
+        
         player.didFinishPlayback = {
             rootNode.removeAudioPlayer(player)
         }
-
+        
         rootNode.addAudioPlayer(player)
     }
     
@@ -136,8 +136,14 @@ class GameViewController: UIViewController {
         //            }
         //        }
         
+        if(!mainScene.started){
+            mainScene.bird.birdNode?.physicsBody?.isAffectedByGravity = true
+            
+            mainScene.started = true
+        }
+        mainScene.bird.jump()
         
-        mainScene.bird.jump() //bird jump hehe
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -154,6 +160,9 @@ extension GameViewController : SCNSceneRendererDelegate {
         
         //Camera follows the ball.
         
+        if(!mainScene.started){
+            mainScene.bird.birdNode?.physicsBody?.isAffectedByGravity = false
+        }
         if(!mainScene.resetting){
             mainScene.updateCamera()
             mainScene.checkPass()
