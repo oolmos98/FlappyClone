@@ -28,9 +28,7 @@ class GameViewController: UIViewController {
     var menuScene: Menu!
     
     var cameraNode: SCNNode!
-    
-    var user = User()
-    
+        
     // 'Bird' object
     var bird: Bird!
     
@@ -47,8 +45,7 @@ class GameViewController: UIViewController {
         
         setupView()
         setupScene()
-        //setupCamera()
-        // setupObjects()
+        
     }
     
     // Handles device rotation
@@ -61,13 +58,13 @@ class GameViewController: UIViewController {
         return true
     }
     
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            return .allButUpsideDown
-        } else {
-            return .all
-        }
-    }
+//    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+//        if UIDevice.current.userInterfaceIdiom == .phone {
+//            return .allButUpsideDown
+//        } else {
+//            return .all
+//        }
+//    }
     
     func setupView(){
         // retrieve the SCNView
@@ -76,20 +73,18 @@ class GameViewController: UIViewController {
         sceneView.showsStatistics = false
         sceneView.allowsCameraControl = false //False since we are manipulating the camera via ball movements and touches
         sceneView.autoenablesDefaultLighting = true
-        
+
     }
     
     func setupScene() {
         
-        mainScene = Main()
         menuScene = Menu()
-        
+
         sceneView.delegate = self
         sceneView.scene = menuScene.menuScene
         
         
         
-        prepareSoundEngine(rootNode: mainScene.bird.birdNode!)
         
         let tapRecognizer = UITapGestureRecognizer()
         tapRecognizer.numberOfTouchesRequired = 1
@@ -103,19 +98,22 @@ class GameViewController: UIViewController {
     }
     func presentGame(){
         
-        menuScene.state = .playing
+
+        prepareMainScene()
+        
+        self.menuScene.state = .playing
         
         // Adds a Overlay to the scene, this uses SpriteKit
-        overlayScene = Overlay(size: sceneView.frame.size)
-        sceneView.overlaySKScene = overlayScene
+        self.overlayScene = Overlay(size: self.sceneView.frame.size)
+        self.sceneView.overlaySKScene = self.overlayScene
         
-        let transition = SKTransition.doorsOpenHorizontal(withDuration: 1.0)  //SKTransition.crossFade(withDuration: 1.0)
-        sceneView.present(
-            mainScene.mainScene,
+        let transition = SKTransition.crossFade(withDuration: 1.5)
+        
+        self.sceneView.present(
+            self.mainScene.mainScene,
             with: transition,
-            incomingPointOfView: nil,
-            completionHandler: nil
-        )
+            incomingPointOfView: mainScene.cameraNode,
+            completionHandler: nil)
     }
     
     
@@ -130,6 +128,12 @@ class GameViewController: UIViewController {
         }
         
         rootNode.addAudioPlayer(player)
+    }
+    
+    func prepareMainScene(){
+        mainScene = Main()
+        prepareSoundEngine(rootNode: mainScene.bird.birdNode!)
+        sceneView.prepare([self.mainScene.mainScene!], completionHandler: nil)
     }
     
     
@@ -175,7 +179,7 @@ extension GameViewController : SCNSceneRendererDelegate {
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
         
         //Camera follows the ball.
-        
+        if(mainScene != nil){
         if(!mainScene.started){
             mainScene.bird.birdNode?.physicsBody?.isAffectedByGravity = false
         }
@@ -190,7 +194,7 @@ extension GameViewController : SCNSceneRendererDelegate {
         }
         
         
-        
+        }
     }
     
 }

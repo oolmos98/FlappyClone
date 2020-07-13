@@ -37,7 +37,6 @@ class Menu {
     
     func setupMenu() {
         backgroundSource = SCNAudioSource(fileNamed: "Sounds/background.mp3")
-        backgroundSource!.loops = false
         backgroundSource!.load()
         backgroundSource.loops = true
         menuScene!.rootNode.addAudioPlayer(SCNAudioPlayer(source: backgroundSource!))
@@ -48,5 +47,4 @@ class Menu {
         let playAudio = SCNAction.playAudio(backgroundSource!, waitForCompletion: false)
         menuScene!.rootNode.runAction(playAudio)
     }
-    
 }

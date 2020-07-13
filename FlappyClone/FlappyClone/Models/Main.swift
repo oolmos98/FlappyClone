@@ -19,7 +19,7 @@ class Main: NSObject {
     var bird: Bird!
     // Pipe Object
     var pipe: [Pipe]!
-    let maxPipes = 10
+    let maxPipes = 6
     
     let CategoryPipe = 4
     
@@ -51,15 +51,14 @@ class Main: NSObject {
         
         bird = Bird()
         
-        setupAudio()
         setupCamera()
+        setupAudio()
         setupObjects()
         playBackgroundSound()
     }
     
     func setupAudio(){
         backgroundSource = SCNAudioSource(fileNamed: "Sounds/playing.mp3")
-        backgroundSource!.loops = false
         backgroundSource!.load()
         backgroundSource.loops = true
         mainScene!.rootNode.addAudioPlayer(SCNAudioPlayer(source: backgroundSource!))
@@ -101,6 +100,7 @@ class Main: NSObject {
             mainScene.rootNode.addChildNode($0.pipeNode!)
         }
         
+        updateCamera()
         
     }
     
@@ -142,7 +142,7 @@ class Main: NSObject {
         
         if(!resetting){
             if(currentIndex < pipe.count){
-                if((pipe[currentIndex].pipeNode?.presentation.position.z)! > (bird.birdNode?.presentation.position.z)!){
+                if((pipe[currentIndex].pipeNode?.presentation.position.z)! - 2 > (bird.birdNode?.presentation.position.z)!){
                     pipe[currentIndex].pipeNode?.isHidden = true
                     pipe[currentIndex+1].pipeNode?.isHidden = true
                     

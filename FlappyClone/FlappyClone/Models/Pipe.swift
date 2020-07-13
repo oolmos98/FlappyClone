@@ -6,7 +6,6 @@
 //  Copyright © 2020 Omar Olmos. All rights reserved.
 //
 
-import Foundation
 import SceneKit
 
 
@@ -41,18 +40,4 @@ class Pipe {
         let pos = SCNVector3(x, y, z)
         pipeNode!.position = pos
     }
-    
-    
-    
-    //Changing radius messes with physics body center of impact
-    
-    //    init(x: CGFloat, y: CGFloat, z: CGFloat, r: CGFloat){
-    //        pipeNode = scene.rootNode.childNode(withName: "pipe", recursively: true)!
-    //
-    //        let pos = SCNVector3(x, y, z)
-    //        pipeNode!.position = pos
-    //
-    //        (pipeNode!.geometry as! SCNCylinder).radius = r
-    //    }
-    
 }

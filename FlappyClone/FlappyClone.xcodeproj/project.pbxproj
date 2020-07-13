@@ -17,7 +17,6 @@
 		9000487624B3D63600817581 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 9000487524B3D63600817581 /* art.scnassets */; };
 		9000487B24B3DF7E00817581 /* Bird.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9000487A24B3DF7E00817581 /* Bird.swift */; };
 		9028740024B6FEE400D80352 /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902873FF24B6FEE400D80352 /* Main.swift */; };
-		904BA9CB24B693B0003CB465 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904BA9CA24B693B0003CB465 /* User.swift */; };
 		9054FE5624B4FE6E0068FB1C /* Pipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9054FE5524B4FE6E0068FB1C /* Pipe.swift */; };
 		90EB16EF24BA441200280CC8 /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90EB16EE24BA441200280CC8 /* Menu.swift */; };
 /* End PBXBuildFile section */
@@ -35,7 +34,6 @@
 		9000487524B3D63600817581 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 		9000487A24B3DF7E00817581 /* Bird.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bird.swift; sourceTree = "<group>"; };
 		902873FF24B6FEE400D80352 /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
-		904BA9CA24B693B0003CB465 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		9054FE5524B4FE6E0068FB1C /* Pipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pipe.swift; sourceTree = "<group>"; };
 		90EB16EE24BA441200280CC8 /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -91,7 +89,6 @@
 				5F3E918E24B6E5D1009C89F9 /* Overlay.swift */,
 				9000487A24B3DF7E00817581 /* Bird.swift */,
 				9054FE5524B4FE6E0068FB1C /* Pipe.swift */,
-				904BA9CA24B693B0003CB465 /* User.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -173,7 +170,6 @@
 				9000486624B3CF2D00817581 /* GameViewController.swift in Sources */,
 				9000487B24B3DF7E00817581 /* Bird.swift in Sources */,
 				9000486224B3CF2D00817581 /* AppDelegate.swift in Sources */,
-				904BA9CB24B693B0003CB465 /* User.swift in Sources */,
 				90EB16EF24BA441200280CC8 /* Menu.swift in Sources */,
 				5F3E918F24B6E5D1009C89F9 /* Overlay.swift in Sources */,
 				9054FE5624B4FE6E0068FB1C /* Pipe.swift in Sources */,
