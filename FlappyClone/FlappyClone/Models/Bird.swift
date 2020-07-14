@@ -22,6 +22,8 @@ class Bird {
     // Sound Effects
     var tapSource: SCNAudioSource?
     var collisionSource: SCNAudioSource?
+    var passSource: SCNAudioSource?
+
 
     init() {
         birdNode = scene.rootNode.childNode(withName: "bird", recursively: true)!
@@ -37,21 +39,31 @@ class Bird {
         collisionSource = SCNAudioSource(fileNamed: "Sounds/yeet.mp3")
         collisionSource!.loops = false
         collisionSource!.load()
+        collisionSource!.volume = 0.5
+
         birdNode!.addAudioPlayer(SCNAudioPlayer(source: collisionSource!))
+        
+        passSource = SCNAudioSource(fileNamed: "Sounds/pew.mp3")
+        passSource!.loops = false
+        passSource!.load()
+        passSource!.volume = 0.4
+
+        birdNode!.addAudioPlayer(SCNAudioPlayer(source: passSource!))
         
     }
     
     func playTapSound() {
-        //guard birdNode!.audioPlayers.count == 0 else { return }
-        //
         let playAudio = SCNAction.playAudio(tapSource!, waitForCompletion: false)
         birdNode!.runAction(playAudio)
     }
     
     func playCollisionSound() {
-        //guard birdNode!.audioPlayers.count == 0 else { return }
-        //
         let playAudio = SCNAction.playAudio(collisionSource!, waitForCompletion: false)
+        birdNode!.runAction(playAudio)
+    }
+    
+    func playPassSound() {
+        let playAudio = SCNAction.playAudio(passSource!, waitForCompletion: false)
         birdNode!.runAction(playAudio)
     }
     

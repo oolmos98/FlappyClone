@@ -39,6 +39,7 @@ class Menu {
         backgroundSource = SCNAudioSource(fileNamed: "Sounds/background.mp3")
         backgroundSource!.load()
         backgroundSource.loops = true
+        backgroundSource!.volume = 0.4
         menuScene!.rootNode.addAudioPlayer(SCNAudioPlayer(source: backgroundSource!))
         
     }

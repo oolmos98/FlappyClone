@@ -14,7 +14,7 @@ class Main: NSObject {
     var cameraNode: SCNNode!
     var mainScene: SCNScene!
     var backgroundSource: SCNAudioSource!
-
+    
     
     var bird: Bird!
     // Pipe Object
@@ -61,6 +61,8 @@ class Main: NSObject {
         backgroundSource = SCNAudioSource(fileNamed: "Sounds/playing.mp3")
         backgroundSource!.load()
         backgroundSource.loops = true
+        backgroundSource!.volume = 0.4
+        
         mainScene!.rootNode.addAudioPlayer(SCNAudioPlayer(source: backgroundSource!))
     }
     
@@ -142,14 +144,27 @@ class Main: NSObject {
         
         if(!resetting){
             if(currentIndex < pipe.count){
+                // Check if went over pipes
+                if((pipe[currentIndex].pipeNode?.presentation.position.z)! > (bird.birdNode?.presentation.position.z)!){
+                    if(
+                        (pipe[currentIndex].pipeNode?.presentation.position.y)! - 2.5 > (bird.birdNode?.presentation.position.y)!
+                            ||
+                            (pipe[currentIndex+1].pipeNode?.presentation.position.y)! + 2.5 < (bird.birdNode?.presentation.position.y)!){
+                        collided()
+                        return
+                    }
+                }
+                
+                // Check if went through pipes
                 if((pipe[currentIndex].pipeNode?.presentation.position.z)! - 2 > (bird.birdNode?.presentation.position.z)!){
                     pipe[currentIndex].pipeNode?.isHidden = true
                     pipe[currentIndex+1].pipeNode?.isHidden = true
-                    
+                    bird.playPassSound()
                     randomizePipe(i: currentIndex, j: currentIndex+1)
                     score += 1
                     currentIndex += 2
                 }
+                
             }
             else{
                 currentIndex = 0
@@ -187,7 +202,7 @@ class Main: NSObject {
         cameraPosition = SCNVector3(x: xComponent, y: yComponent, z: zComponent)
         
         cameraNode.position = cameraPosition
-
+        
         
         if(ballPosition.x > 0.5 || ballPosition.x < -0.5){
             bird.birdNode?.position = SCNVector3(0,ballPosition.y,ballPosition.z)
@@ -217,11 +232,22 @@ class Main: NSObject {
         }
     }
     
+    func collided(){
+        bird.playCollisionSound()
+        self.hidePipe(yah: true)
+        bird.birdNode?.runAction(animate() , completionHandler:{
+            self.reset(type: true)
+        })
+    }
+    
 }
 
 extension Main : SCNPhysicsContactDelegate {
     func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
         
+        if(resetting){
+            return
+        }
         print("hit")
         var contactNode:SCNNode!
         
@@ -233,10 +259,7 @@ extension Main : SCNPhysicsContactDelegate {
         }
         
         if contactNode.physicsBody?.categoryBitMask == CategoryPipe {
-            bird.playCollisionSound()
-            bird.birdNode?.runAction(animate() , completionHandler:{
-                self.reset(type: true)
-            })
+            self.collided()
         }
     }
 }
