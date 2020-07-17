@@ -18,7 +18,8 @@ class Menu {
     
     var backgroundSource: SCNAudioSource!
 
-    
+    var generator: UIImpactFeedbackGenerator!
+
     var state: State!
     
     
@@ -26,6 +27,9 @@ class Menu {
     init() {
         menuScene = SCNScene(named: "art.scnassets/Menu.scn")
         state = State.menu
+        generator = UIImpactFeedbackGenerator(style: .heavy)
+
+        
         setupMenu()
         playBackgroundSound()
     }
@@ -47,5 +51,11 @@ class Menu {
     func playBackgroundSound() {
         let playAudio = SCNAction.playAudio(backgroundSource!, waitForCompletion: false)
         menuScene!.rootNode.runAction(playAudio)
+    }
+    
+    func vibrate(){
+        //generator = UIImpactFeedbackGenerator(style: which)
+        //generator.impactOccurred()
+        generator.impactOccurred()
     }
 }

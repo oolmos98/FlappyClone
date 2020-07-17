@@ -41,9 +41,16 @@ class Main: NSObject {
     
     var started:Bool = false
     
+    var generator: UIImpactFeedbackGenerator!
+    var generator2: UIImpactFeedbackGenerator!
+
+    
     override init() {
         super.init()
         
+        generator = UIImpactFeedbackGenerator(style: .heavy)
+        generator2 = UIImpactFeedbackGenerator(style: .light)
+
         bound = ((-10) * Float(maxPipes)) - 10
         
         mainScene = SCNScene(named: "art.scnassets/MainScene.scn")
@@ -157,6 +164,8 @@ class Main: NSObject {
                 
                 // Check if went through pipes
                 if((pipe[currentIndex].pipeNode?.presentation.position.z)! - 2 > (bird.birdNode?.presentation.position.z)!){
+                    vibrate()
+
                     pipe[currentIndex].pipeNode?.isHidden = true
                     pipe[currentIndex+1].pipeNode?.isHidden = true
                     bird.playPassSound()
@@ -234,10 +243,18 @@ class Main: NSObject {
     
     func collided(){
         bird.playCollisionSound()
+        vibrate()
         self.hidePipe(yah: true)
         bird.birdNode?.runAction(animate() , completionHandler:{
             self.reset(type: true)
         })
+    }
+    
+    func vibrate(){
+        generator.impactOccurred()
+    }
+    func vibrate2(){
+        generator2.impactOccurred()
     }
     
 }
@@ -251,7 +268,7 @@ extension Main : SCNPhysicsContactDelegate {
         print("hit")
         var contactNode:SCNNode!
         
-        if contact.nodeA.name == "bird" {
+        if contact.nodeA.name == self.bird.name {
             contactNode = contact.nodeB
         }
         else{

@@ -28,7 +28,7 @@ class GameViewController: UIViewController {
     var menuScene: Menu!
     
     var cameraNode: SCNNode!
-        
+    
     // 'Bird' object
     var bird: Bird!
     
@@ -58,13 +58,13 @@ class GameViewController: UIViewController {
         return true
     }
     
-//    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-//        if UIDevice.current.userInterfaceIdiom == .phone {
-//            return .allButUpsideDown
-//        } else {
-//            return .all
-//        }
-//    }
+    //    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+    //        if UIDevice.current.userInterfaceIdiom == .phone {
+    //            return .allButUpsideDown
+    //        } else {
+    //            return .all
+    //        }
+    //    }
     
     func setupView(){
         // retrieve the SCNView
@@ -73,18 +73,19 @@ class GameViewController: UIViewController {
         sceneView.showsStatistics = false
         sceneView.allowsCameraControl = false //False since we are manipulating the camera via ball movements and touches
         sceneView.autoenablesDefaultLighting = true
-
+        
     }
     
     func setupScene() {
         
         menuScene = Menu()
-
+        DispatchQueue.main.async {
+            
+            self.prepareMainScene()
+        }
         sceneView.delegate = self
         sceneView.scene = menuScene.menuScene
-        
-        
-        
+                
         
         let tapRecognizer = UITapGestureRecognizer()
         tapRecognizer.numberOfTouchesRequired = 1
@@ -97,17 +98,13 @@ class GameViewController: UIViewController {
         
     }
     func presentGame(){
-        
-
-        prepareMainScene()
-        
         self.menuScene.state = .playing
         
         // Adds a Overlay to the scene, this uses SpriteKit
         self.overlayScene = Overlay(size: self.sceneView.frame.size)
         self.sceneView.overlaySKScene = self.overlayScene
         
-        let transition = SKTransition.crossFade(withDuration: 1.5)
+        let transition = SKTransition.crossFade(withDuration: 1)
         
         self.sceneView.present(
             self.mainScene.mainScene,
@@ -131,9 +128,12 @@ class GameViewController: UIViewController {
     }
     
     func prepareMainScene(){
-        mainScene = Main()
-        prepareSoundEngine(rootNode: mainScene.bird.birdNode!)
-        sceneView.prepare([self.mainScene.mainScene!], completionHandler: nil)
+        
+        self.mainScene = Main()
+        self.sceneView.prepare(self.mainScene.mainScene!,shouldAbortBlock: nil)
+        self.prepareSoundEngine(rootNode: self.mainScene.bird.birdNode!)
+        
+        
     }
     
     
@@ -150,6 +150,7 @@ class GameViewController: UIViewController {
                 let result = hitResults.first
                 if let node = result?.node{
                     if node.name == "hud"{
+                        menuScene.vibrate()
                         presentGame()
                     }
                 }
@@ -180,20 +181,20 @@ extension GameViewController : SCNSceneRendererDelegate {
         
         //Camera follows the ball.
         if(mainScene != nil){
-        if(!mainScene.started){
-            mainScene.bird.birdNode?.physicsBody?.isAffectedByGravity = false
-        }
-        if(!mainScene.resetting){
-            mainScene.updateCamera()
-            mainScene.checkPass()
-        }
-        
-        
-        if let overlay = sceneView.overlaySKScene as? Overlay {
-            overlay.score = mainScene.score
-        }
-        
-        
+            if(!mainScene.started){
+                mainScene.bird.birdNode?.physicsBody?.isAffectedByGravity = false
+            }
+            if(!mainScene.resetting){
+                mainScene.updateCamera()
+                mainScene.checkPass()
+            }
+            
+            
+            if let overlay = sceneView.overlaySKScene as? Overlay {
+                overlay.score = mainScene.score
+            }
+            
+            
         }
     }
     

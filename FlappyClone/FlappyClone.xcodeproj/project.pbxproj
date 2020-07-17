@@ -35,6 +35,7 @@
 		9000487A24B3DF7E00817581 /* Bird.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bird.swift; sourceTree = "<group>"; };
 		902873FF24B6FEE400D80352 /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		9054FE5524B4FE6E0068FB1C /* Pipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pipe.swift; sourceTree = "<group>"; };
+		908D4A0124C14AE9000AAFE2 /* FlappyClone.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FlappyClone.entitlements; sourceTree = "<group>"; };
 		90EB16EE24BA441200280CC8 /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -68,6 +69,7 @@
 		9000486024B3CF2D00817581 /* FlappyClone */ = {
 			isa = PBXGroup;
 			children = (
+				908D4A0124C14AE9000AAFE2 /* FlappyClone.entitlements */,
 				5FDBAFC324BA8F0E00E9ED2B /* Sounds */,
 				9000487724B3DF2D00817581 /* Models */,
 				9000486124B3CF2D00817581 /* AppDelegate.swift */,
@@ -316,6 +318,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = FlappyClone/FlappyClone.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MZ735S9CUK;
 				INFOPLIST_FILE = FlappyClone/Info.plist;
@@ -326,6 +329,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = OmarOlmos.FlappyClone;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -335,6 +339,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = FlappyClone/FlappyClone.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MZ735S9CUK;
 				INFOPLIST_FILE = FlappyClone/Info.plist;
@@ -345,6 +350,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = OmarOlmos.FlappyClone;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

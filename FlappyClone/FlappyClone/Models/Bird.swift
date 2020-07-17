@@ -13,9 +13,11 @@ import SceneKit
 
 class Bird {
     
-    var birdNode:SCNNode?
+    var name = "virus"
     
-    var scene:SCNScene! = SCNScene(named: "art.scnassets/bird.scn")!
+    var birdNode:SCNNode!
+    
+    var scene:SCNScene!
     
     var initLocation: SCNVector3!
     
@@ -23,10 +25,12 @@ class Bird {
     var tapSource: SCNAudioSource?
     var collisionSource: SCNAudioSource?
     var passSource: SCNAudioSource?
-
-
+    
+    
     init() {
-        birdNode = scene.rootNode.childNode(withName: "bird", recursively: true)!
+        
+        scene = SCNScene(named: "art.scnassets/\(name).scn")!
+        birdNode = scene.rootNode.childNode(withName: name, recursively: true)!
         initLocation = birdNode?.position
         
         
@@ -40,14 +44,14 @@ class Bird {
         collisionSource!.loops = false
         collisionSource!.load()
         collisionSource!.volume = 0.5
-
+        
         birdNode!.addAudioPlayer(SCNAudioPlayer(source: collisionSource!))
         
         passSource = SCNAudioSource(fileNamed: "Sounds/pew.mp3")
         passSource!.loops = false
         passSource!.load()
         passSource!.volume = 0.4
-
+        
         birdNode!.addAudioPlayer(SCNAudioPlayer(source: passSource!))
         
     }
@@ -71,10 +75,11 @@ class Bird {
         
         if(birdNode!.position.x != 0){
             birdNode!.physicsBody?.applyForce(SCNVector3(x: -birdNode!.position.x, y: 1.7, z: -0.8), asImpulse: true)
-
+            
         }
         else{
             birdNode!.physicsBody?.applyForce(SCNVector3(x: 0, y: 1.5, z: -0.5), asImpulse: true)
+            birdNode!.physicsBody?.applyTorque(SCNVector4(0, 0.4, 0.4, 0.5), asImpulse: true)
         }
         playTapSound()
         

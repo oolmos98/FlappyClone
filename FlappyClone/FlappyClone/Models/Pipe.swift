@@ -12,23 +12,28 @@ import SceneKit
 
 class Pipe {
     
+    var name = "Pipe"
+    var subname: String!
     var pipeNode:SCNNode?
     
-    var scene:SCNScene! = SCNScene(named: "art.scnassets/Pipe.scn")!
+    var scene:SCNScene!
     
     var position: SCNVector3!
     
     
     init(){
-        pipeNode = scene.rootNode.childNode(withName: "Pipe", recursively: true)!
+        pipeNode = scene.rootNode.childNode(withName: name, recursively: true)!
         position = pipeNode!.position
     }
     init(x: CGFloat, y: CGFloat, z: CGFloat, dir: Bool){
         
+        subname = name+"_down"
+        
+        scene = SCNScene(named: "art.scnassets/\(name).scn")!
         //true = pipe up, false = pipe down
         pipeNode =
             dir ?
-                scene.rootNode.childNode(withName: "Pipe", recursively: true)! : scene.rootNode.childNode(withName: "Pipe_down", recursively: true)!
+                scene.rootNode.childNode(withName: name, recursively: true)! : scene.rootNode.childNode(withName: subname, recursively: true)!
         
         let pos = SCNVector3(x, y, z)
         pipeNode!.position = pos
